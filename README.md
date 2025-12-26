@@ -1,36 +1,12 @@
 # G4Cam_V3_San - Real-time Video Processing Application
 
 **Course:** IVP501.22 - Image and Video Processing  
-**Group 4:** Nguyễn Sỹ Hùng (25MSA33055), Nguyễn Trần Quang Mạnh (25MSA33060), Thái Quan San (25MSA33052)
-
-## Overview
 
 G4Cam là ứng dụng xử lý video real-time với các tính năng:
 - ✨ Background segmentation và effects (blur, pixelate, color shift, virtual background)
 - 🎨 Global adjustments (brightness, contrast, exposure, saturation, shadow)
 - 🔧 Beauty filtering (in progress)
 - 📸 Snapshot capture
-
-## Project Structure
-
-```
-g4cam/
-├── app.py                      # Entry point
-├── requirements.txt            # Dependencies
-│
-├── gui/
-│   ├── main_window.py         # Main window
-│   ├── video_widget.py        # Video display widget (updated)
-│   └── controls_panel.py      # Controls UI (updated)
-│
-├── processing/
-│   ├── segmentation.py        # MediaPipe segmentation (San)
-│   ├── background_processing.py  # Background effects (San)
-│   ├── pipeline_processor.py  # Integrated pipeline (San)
-│   └── beauty_filter.py       # Beauty filter
-│
-└── README.md
-```
 
 ## Installation
 
@@ -40,14 +16,7 @@ g4cam/
 pip install -r requirements.txt
 ```
 
-### 2. Kiểm tra MediaPipe
-
-MediaPipe yêu cầu:
-- Python 3.8-3.11
-- Webcam hoạt động
-- GPU không bắt buộc nhưng sẽ tăng tốc
-
-### 3. Chạy ứng dụng
+### 2. Chạy ứng dụng
 
 ```bash
 python app.py
