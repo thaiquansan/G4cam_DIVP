@@ -1,4 +1,4 @@
-# G4Cam - Real-time Video Processing Application
+# G4Cam_V3_San - Real-time Video Processing Application
 
 **Course:** IVP501.22 - Image and Video Processing  
 **Group 4:** Nguyễn Sỹ Hùng (25MSA33055), Nguyễn Trần Quang Mạnh (25MSA33060), Thái Quan San (25MSA33052)
@@ -27,17 +27,7 @@ g4cam/
 │   ├── segmentation.py        # MediaPipe segmentation (San)
 │   ├── background_processing.py  # Background effects (San)
 │   ├── pipeline_processor.py  # Integrated pipeline (San)
-│   │
-│   ├── image_processor.py     # Global adjustments orchestrator
-│   ├── brightness.py          # Brightness adjustment (Mạnh)
-│   ├── contrast.py            # Contrast adjustment (Mạnh)
-│   ├── exposure.py            # Exposure adjustment (Mạnh)
-│   ├── saturation.py          # Saturation adjustment (Mạnh)
-│   ├── shadow.py              # Shadow adjustment (Mạnh)
-│   ├── blur.py                # Blur filter (Mạnh)
-│   ├── sharpen.py             # Sharpen filter (Mạnh)
-│   │
-│   └── beauty_filter.py       # Beauty filtering (Hùng - TODO)
+│   └── beauty_filter.py       # Beauty filter
 │
 └── README.md
 ```
@@ -65,20 +55,9 @@ python app.py
 
 ## Work Breakdown
 
-### 1. Nguyễn Sỹ Hùng - Segmentation & Beauty Filtering
-**Files:** `segmentation.py`, `beauty_filter.py` (TODO)
-
-**Techniques:**
-- MediaPipe Selfie Segmentation
-- Mask refinement (threshold, Gaussian smoothing)
-- Beauty filtering: Guided Filter / Bilateral Filter
-- Edge-preserving smoothing
-
-**Status:** Segmentation ✅ | Beauty Filter 🚧
-
 ---
 
-### 2. Thái Quan San - Background Processing & Pipeline Integration
+### Thái Quan San - Background Processing & Pipeline Integration
 **Files:** `background_processing.py`, `pipeline_processor.py`, `controls_panel.py` (updated), `video_widget.py` (updated)
 
 **Techniques:**
@@ -108,21 +87,6 @@ Where:
 - ✅ Integrated pipeline với all processing steps
 
 **Status:** ✅ Complete
-
----
-
-### 3. Nguyễn Trần Quang Mạnh - Global Adjustments
-**Files:** `brightness.py`, `contrast.py`, `exposure.py`, `saturation.py`, `shadow.py`, `blur.py`, `sharpen.py`, `image_processor.py`
-
-**Techniques:**
-- **Gray-level Transformation:** Brightness (linear), Contrast (scaling)
-- **Histogram Processing:** Exposure (gamma correction)
-- **Color Processing:** Saturation (HSV), Shadow adjustment
-- **Spatial Filters:** Blur (Gaussian), Sharpen (Laplacian kernel)
-
-**Status:** ✅ Complete
-
-## Usage Guide
 
 ### Background Effects Panel
 
@@ -165,15 +129,12 @@ Click "Snapshot" trong toolbar để chụp ảnh và lưu kết quả đã xử
    - MediaPipe Selfie Segmentation
    - Mask threshold và Gaussian smoothing
    
-2. **Foreground Processing** (TODO - Hùng)
+2. **Foreground Processing** (San)
    - Beauty filter on person region
    
 3. **Background Processing** (San)
    - Apply effect (blur/pixelate/color shift/solid) to background
    - Combine với foreground using mask
-   
-4. **Global Adjustments** (Mạnh)
-   - Exposure → Brightness → Shadow → Contrast → Saturation → Blur → Sharpen
 
 ### Performance Considerations
 
@@ -193,7 +154,7 @@ Click "Snapshot" trong toolbar để chụp ảnh và lưu kết quả đã xử
 
 ## Future Enhancements
 
-- [ ] Beauty filter implementation (Hùng)
+- [ ] Beauty filter implementation (San)
 - [ ] Auto brightness adjustment (CLAHE)
 - [ ] Virtual background with custom images
 - [ ] Face mesh for detailed facial processing

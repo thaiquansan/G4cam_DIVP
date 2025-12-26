@@ -1,5 +1,6 @@
 from PySide6 import QtCore, QtGui, QtWidgets
 import cv2, time, numpy as np
+from utils.pipeline_processor import IntegratedPipeline
 
 class VideoWidget(QtWidgets.QLabel):
     sig_fps_update = QtCore.Signal(float, float, float)
@@ -17,8 +18,11 @@ class VideoWidget(QtWidgets.QLabel):
         self._timer.setInterval(30)
         self._times = []
 
-        self._controls = {}  # Lưu trạng thái controls
-        self._current_frame = None  # Lưu frame hiện tại
+        self._controls = {}
+        self._current_frame = None
+        
+        # Khởi tạo integrated pipeline
+        self.pipeline = IntegratedPipeline()
 
     def start_camera(self):
         self.stop_camera()
@@ -60,20 +64,22 @@ class VideoWidget(QtWidgets.QLabel):
         
         # Lật cam
         frame = cv2.flip(frame, 1)
-        # Áp dụng xử lý ảnh nếu có controls
+        
+        # === Áp dụng INTEGRATED PIPELINE ===
         if self._controls:
-            from utils import process_frame
-            frame = process_frame(frame, self._controls)
+            frame = self.pipeline.process(frame, self._controls)
         
         # Lưu frame đã xử lý
         self._current_frame = frame.copy()
 
+        # Hiển thị
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         h, w, ch = frame_rgb.shape
         qimg = QtGui.QImage(frame_rgb.data, w, h, ch*w, QtGui.QImage.Format.Format_RGB888)
         pix = QtGui.QPixmap.fromImage(qimg).scaled(self.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.setPixmap(pix)
 
+        # Tính FPS
         dt = (time.perf_counter() - t0) * 1000.0
         self._times.append(dt)
         if len(self._times) > 60:
@@ -94,3 +100,8 @@ class VideoWidget(QtWidgets.QLabel):
             qimg = QtGui.QImage(frame_rgb.data, w, h, ch*w, QtGui.QImage.Format.Format_RGB888)
             return qimg.copy()
         return None
+    
+    def cleanup(self):
+        """Giải phóng tài nguyên khi đóng app"""
+        self.stop_camera()
+        self.pipeline.cleanup()

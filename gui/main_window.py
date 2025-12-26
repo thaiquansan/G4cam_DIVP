@@ -1,27 +1,46 @@
 from PySide6 import QtCore, QtWidgets
-from .video_widget import VideoWidget
-from .controls_panel import ControlsPanel
+from gui.video_widget import VideoWidget
+from gui.controls_panel import ControlsPanel
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("G4Cam — GUI Only")
-        self._build_ui()
-        self._connect_signals()
-        self.video.set_device(0)
-        self.video.set_resolution(1024, 720)
-        self.video.start_camera()
+        
+        self.setWindowTitle("G4Cam – GUI Only")
+        
+        try:
+            self._build_ui()
+        except Exception as e:
+            print(f"❌ _build_ui failed: {e}")
+            import traceback
+            traceback.print_exc()
+            raise
+        
+        try:
+            self._connect_signals()
+        except Exception as e:
+            print(f"❌ _connect_signals failed: {e}")
+            import traceback
+            traceback.print_exc()
+            raise
+        
+        try:
+            self.video.set_device(0)
+            self.video.set_resolution(1024, 720)            
+            self.video.start_camera()
+        except Exception as e:
+            print(f"❌ Camera initialization failed: {e}")
+            import traceback
+            traceback.print_exc()
 
     def _build_ui(self):
         self.video = VideoWidget(self)
         self.controls = ControlsPanel(self)
-
         splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
         splitter.addWidget(self.video)
         splitter.addWidget(self.controls)
         splitter.setStretchFactor(0, 4)
         splitter.setStretchFactor(1, 1)
-
         tb = self.addToolBar("Controls")
         tb.setMovable(False)
         self.act_snapshot = tb.addAction("Snapshot")
@@ -43,7 +62,6 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         path, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save Snapshot", "snapshot.png", "PNG Image (*.png)")
         if path:
-            # Chuyển QImage thành QPixmap để save
             from PySide6.QtGui import QPixmap
             pixmap = QPixmap.fromImage(img)
             pixmap.save(path, "PNG")
